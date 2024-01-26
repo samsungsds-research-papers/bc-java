@@ -77,7 +77,10 @@ class NamedGroupInfo
 
         kyber512(NamedGroup.kyber512, "PQC"),
         kyber768(NamedGroup.kyber768, "PQC"),
-        kyber1024(NamedGroup.kyber1024, "PQC");
+        kyber1024(NamedGroup.kyber1024, "PQC"),
+        secp256Kyber512(NamedGroup.secp256Kyber512, "PQC"),
+        secp384Kyber768(NamedGroup.secp384Kyber768, "PQC"),
+        secp521Kyber1024(NamedGroup.secp521Kyber1024, "PQC");
 
         private final int namedGroup;
         private final String name;

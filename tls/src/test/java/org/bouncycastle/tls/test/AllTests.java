@@ -22,6 +22,7 @@ public class AllTests
         TestSuite suite = new TestSuite("TLS tests");
 
         suite.addTestSuite(BasicTlsTest.class);
+        suite.addTestSuite(TlsProtocolPQCTest.class);
         suite.addTestSuite(ByteQueueInputStreamTest.class);
         suite.addTestSuite(DTLSAggregatedHandshakeRetransmissionTest.class);
         suite.addTestSuite(DTLSHandshakeRetransmissionTest.class);

@@ -105,6 +105,9 @@ public class NamedGroup
     public static final int kyber512 = 0x023A;
     public static final int kyber768 = 0x023C;
     public static final int kyber1024 = 0x023D;
+    public static final int secp256Kyber512 = 0x2F3A;
+    public static final int secp384Kyber768 = 0x2F3C;
+    public static final int secp521Kyber1024 = 0x2F3D;
 
     /* Names of the actual underlying elliptic curves (not necessarily matching the NamedGroup names). */
     private static final String[] CURVE_NAMES = new String[] { "sect163k1", "sect163r1", "sect163r2", "sect193r1",
@@ -275,6 +278,12 @@ public class NamedGroup
             return "kyber768";
         case kyber1024:
             return "kyber1024";
+        case secp256Kyber512:
+            return "secp256Kyber512";
+        case secp384Kyber768:
+            return "secp384Kyber768";
+        case secp521Kyber1024:
+            return "secp521Kyber1024";
         default:
             return null;
         }
@@ -440,7 +449,8 @@ public class NamedGroup
 
     public static boolean refersToASpecificPQC(int namedGroup)
     {
-        return namedGroup == kyber512 || namedGroup == kyber768 || namedGroup == kyber1024;
+        return namedGroup == kyber512 || namedGroup == kyber768 || namedGroup == kyber1024
+            || namedGroup == secp256Kyber512 || namedGroup == secp384Kyber768 || namedGroup == secp521Kyber1024;
     }
 
     public static boolean refersToASpecificGroup(int namedGroup)

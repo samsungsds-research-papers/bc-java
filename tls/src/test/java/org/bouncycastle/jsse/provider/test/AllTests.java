@@ -22,6 +22,7 @@ public class AllTests
 
         suite.addTestSuite(BasicClientAuthTlsTest.class);
         suite.addTestSuite(BasicTlsTest.class);
+        suite.addTestSuite(BasicTlsPQCTest.class);
         suite.addTestSuite(ConfigTest.class);
         suite.addTestSuite(ECDSACredentialsTest.class);
         suite.addTestSuite(EdDSACredentialsTest.class);

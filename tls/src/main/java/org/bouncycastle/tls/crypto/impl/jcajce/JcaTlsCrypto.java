@@ -442,9 +442,13 @@ public class JcaTlsCrypto
         {
             switch (namedGroup)
             {
-            case NamedGroup.kyber512:
-            case NamedGroup.kyber768:
-            case NamedGroup.kyber1024:
+            case NamedGroup.secp256Kyber512:
+                return ECUtil.getAlgorithmParameters(this, NamedGroup.getCurveName(NamedGroup.secp256r1));
+            case NamedGroup.secp384Kyber768:
+                return ECUtil.getAlgorithmParameters(this, NamedGroup.getCurveName(NamedGroup.secp384r1));
+            case NamedGroup.secp521Kyber1024:
+                return ECUtil.getAlgorithmParameters(this, NamedGroup.getCurveName(NamedGroup.secp521r1));
+            default:
                 return null;
             }
         }
@@ -843,7 +847,15 @@ public class JcaTlsCrypto
     
     public TlsPQCDomain createPQCDomain(TlsPQCConfig pqcConfig)
     {
-        return new JceTlsKyberDomain(this, pqcConfig);
+        switch (pqcConfig.getNamedGroup())
+        {
+        case NamedGroup.secp256Kyber512:
+        case NamedGroup.secp384Kyber768:
+        case NamedGroup.secp521Kyber1024:
+            return new JceTlsECDHKyberDomain(this, pqcConfig);
+        default:
+            return new JceTlsKyberDomain(this, pqcConfig);
+        }
     }
 
     public TlsSecret hkdfInit(int cryptoHashAlgorithm)
@@ -1172,7 +1184,17 @@ public class JcaTlsCrypto
             }
             else if (NamedGroup.refersToASpecificPQC(namedGroup))
             {
-                return Boolean.TRUE;
+                switch (namedGroup)
+                {
+                case NamedGroup.secp256Kyber512:
+                    return Boolean.valueOf(ECUtil.isCurveSupported(this, NamedGroup.getCurveName(NamedGroup.secp256r1)));
+                case NamedGroup.secp384Kyber768:
+                    return Boolean.valueOf(ECUtil.isCurveSupported(this, NamedGroup.getCurveName(NamedGroup.secp384r1)));
+                case NamedGroup.secp521Kyber1024:
+                    return Boolean.valueOf(ECUtil.isCurveSupported(this, NamedGroup.getCurveName(NamedGroup.secp521r1)));
+                default:
+                    return Boolean.TRUE;
+                }
             }
             else if (NamedGroup.refersToAnECDSACurve(namedGroup))
             {

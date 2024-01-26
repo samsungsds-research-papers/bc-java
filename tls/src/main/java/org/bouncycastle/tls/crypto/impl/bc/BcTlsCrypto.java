@@ -215,7 +215,15 @@ public class BcTlsCrypto
 
     public TlsPQCDomain createPQCDomain(TlsPQCConfig pqcConfig)
     {
-        return new BcTlsKyberDomain(this, pqcConfig);
+        switch (pqcConfig.getNamedGroup())
+        {
+        case NamedGroup.secp256Kyber512:
+        case NamedGroup.secp384Kyber768:
+        case NamedGroup.secp521Kyber1024:
+            return new BcTlsECDHKyberDomain(this, pqcConfig);
+        default:
+            return new BcTlsKyberDomain(this, pqcConfig);
+        }
     }
 
     public TlsNonceGenerator createNonceGenerator(byte[] additionalSeedMaterial)
