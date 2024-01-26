@@ -141,7 +141,8 @@ public class NamedGroup
         {
             if ((namedGroup >= brainpoolP256r1tls13 && namedGroup <= brainpoolP512r1tls13)
                 || (namedGroup == curveSM2)
-                || (namedGroup == kyber512 || namedGroup == kyber768 || namedGroup == kyber1024))
+                || (namedGroup == kyber512 || namedGroup == kyber768 || namedGroup == kyber1024)
+                || (namedGroup == secp256Kyber512 || namedGroup == secp384Kyber768 || namedGroup == secp521Kyber1024))
             {
                 return false;
             }
