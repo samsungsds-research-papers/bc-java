@@ -24,7 +24,7 @@ public class BasicTlsPQCTest
     protected void setUp()
     {
         ProviderUtils.setupLowPriority(false);
-        System.setProperty("jdk.tls.namedGroups","secp384Kyber768");
+        System.setProperty("jdk.tls.namedGroups","x25519Kyber768");
     }
 
     private static final String HOST = "localhost";

@@ -221,6 +221,11 @@ public class BcTlsCrypto
         case NamedGroup.secp384Kyber768:
         case NamedGroup.secp521Kyber1024:
             return new BcTlsECDHKyberDomain(this, pqcConfig);
+        case NamedGroup.x25519Kyber512:
+        case NamedGroup.x25519Kyber768:
+            return new BcTlsX25519KyberDomain(this, pqcConfig);
+        case NamedGroup.x448Kyber768:
+            return new BcTlsX448KyberDomain(this, pqcConfig);
         default:
             return new BcTlsKyberDomain(this, pqcConfig);
         }

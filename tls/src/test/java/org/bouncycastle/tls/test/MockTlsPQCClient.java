@@ -58,7 +58,7 @@ class MockTlsPQCClient
 
         if (namedGroupRoles.contains(Integers.valueOf(NamedGroupRole.pqc))) {
             TlsUtils.addIfSupported(supportedGroups, crypto,
-                new int[]{ NamedGroup.secp384Kyber768 });
+                new int[]{ NamedGroup.x25519Kyber768 });
         };
         return supportedGroups;
     }

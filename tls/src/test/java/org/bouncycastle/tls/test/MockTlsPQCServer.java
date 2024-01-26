@@ -50,6 +50,9 @@ class MockTlsPQCServer
             NamedGroup.secp256Kyber512,
             NamedGroup.secp384Kyber768,
             NamedGroup.secp521Kyber1024,
+            NamedGroup.x25519Kyber512,
+            NamedGroup.x25519Kyber768,
+            NamedGroup.x448Kyber768,
             NamedGroup.x25519
         };
     }
