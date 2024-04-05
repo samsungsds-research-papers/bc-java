@@ -1,4 +1,4 @@
-package org.bouncycastle.tls.crypto.impl.bc;
+package org.bouncycastle.tls.crypto.impl.jcajce;
 
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.SecretWithEncapsulation;
@@ -13,26 +13,25 @@ import org.bouncycastle.tls.NamedGroup;
 import org.bouncycastle.tls.crypto.TlsAgreement;
 import org.bouncycastle.tls.crypto.TlsKEMConfig;
 import org.bouncycastle.tls.crypto.TlsKEMDomain;
-import org.bouncycastle.tls.crypto.TlsSecret;
 
-public class BcTlsKyberDomain implements TlsKEMDomain
+public class JceTlsMLKemDomain implements TlsKEMDomain
 {
     public static KyberParameters getKyberParameters(TlsKEMConfig kemConfig)
     {
         switch (kemConfig.getKEMNamedGroup())
         {
-        case NamedGroup.kyber512:
+        case NamedGroup.mlkem512:
             return KyberParameters.kyber512;
-        case NamedGroup.kyber768:
+        case NamedGroup.mlkem768:
             return KyberParameters.kyber768;
-        case NamedGroup.kyber1024:
+        case NamedGroup.mlkem1024:
             return KyberParameters.kyber1024;
         default:
             return null;
         }
     }
 
-    protected final BcTlsCrypto crypto;
+    protected final JcaTlsCrypto crypto;
     protected final TlsKEMConfig kemConfig;
     protected final KyberParameters kyberParameters;
 
@@ -41,7 +40,7 @@ public class BcTlsKyberDomain implements TlsKEMDomain
         return kemConfig;
     }
 
-    public BcTlsKyberDomain(BcTlsCrypto crypto, TlsKEMConfig kemConfig)
+    public JceTlsMLKemDomain(JcaTlsCrypto crypto, TlsKEMConfig kemConfig)
     {
         this.crypto = crypto;
         this.kemConfig = kemConfig;
@@ -50,7 +49,7 @@ public class BcTlsKyberDomain implements TlsKEMDomain
 
     public TlsAgreement createKEM()
     {
-        return new BcTlsKyber(this);
+        return new JceTlsMLKem(this);
     }
 
     public KyberPublicKeyParameters decodePublicKey(byte[] encoding)
@@ -70,18 +69,18 @@ public class BcTlsKyberDomain implements TlsKEMDomain
         return keyPairGenerator.generateKeyPair();
     }
 
-    public TlsSecret adoptLocalSecret(byte[] secret)
+    public JceTlsSecret adoptLocalSecret(byte[] secret)
     {
         return crypto.adoptLocalSecret(secret);
     }
 
-    public SecretWithEncapsulation enCap(KyberPublicKeyParameters peerPublicKey)
+    public SecretWithEncapsulation encapsulate(KyberPublicKeyParameters peerPublicKey)
     {
-        KyberKEMGenerator kemGen = new KyberKEMGenerator(crypto.getSecureRandom());
-        return kemGen.generateEncapsulated(peerPublicKey);
+        KyberKEMGenerator kemGenerator = new KyberKEMGenerator(crypto.getSecureRandom());
+        return kemGenerator.generateEncapsulated(peerPublicKey);
     }
 
-    public byte[] deCap(KyberPrivateKeyParameters kyberPrivateKeyParameters, byte[] cipherText)
+    public byte[] decapsulate(KyberPrivateKeyParameters kyberPrivateKeyParameters, byte[] cipherText)
     {
         KyberKEMExtractor kemExtract = new KyberKEMExtractor(kyberPrivateKeyParameters);
         byte[] secret = kemExtract.extractSecret(cipherText);

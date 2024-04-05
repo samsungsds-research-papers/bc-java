@@ -215,7 +215,7 @@ public class BcTlsCrypto
 
     public TlsKEMDomain createKEMDomain(TlsKEMConfig kemConfig)
     {
-        return new BcTlsKyberDomain(this, kemConfig);
+        return new BcTlsMLKemDomain(this, kemConfig);
     }
 
     public TlsNonceGenerator createNonceGenerator(byte[] additionalSeedMaterial)

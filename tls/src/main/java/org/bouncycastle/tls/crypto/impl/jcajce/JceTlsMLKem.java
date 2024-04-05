@@ -8,16 +8,16 @@ import org.bouncycastle.pqc.crypto.crystals.kyber.KyberPublicKeyParameters;
 import org.bouncycastle.tls.crypto.TlsAgreement;
 import org.bouncycastle.util.Arrays;
 
-public class JceTlsKyber implements TlsAgreement
+public class JceTlsMLKem implements TlsAgreement
 {
-    protected final JceTlsKyberDomain domain;
+    protected final JceTlsMLKemDomain domain;
 
     protected AsymmetricCipherKeyPair localKeyPair;
     protected KyberPublicKeyParameters peerPublicKey;
     protected byte[] ciphertext;
     protected byte[] secret;
 
-    public JceTlsKyber(JceTlsKyberDomain domain)
+    public JceTlsMLKem(JceTlsMLKemDomain domain)
     {
         this.domain = domain;
     }
@@ -40,7 +40,7 @@ public class JceTlsKyber implements TlsAgreement
         if (domain.getTlsKEMConfig().isServer())
         {
             this.peerPublicKey = domain.decodePublicKey(peerValue);
-            SecretWithEncapsulation encap = domain.enCap(peerPublicKey);
+            SecretWithEncapsulation encap = domain.encapsulate(peerPublicKey);
             ciphertext = encap.getEncapsulation();
             secret = encap.getSecret();
         }
@@ -58,7 +58,7 @@ public class JceTlsKyber implements TlsAgreement
         }
         else
         {
-            return domain.adoptLocalSecret(domain.deCap((KyberPrivateKeyParameters)localKeyPair.getPrivate(), ciphertext));
+            return domain.adoptLocalSecret(domain.decapsulate((KyberPrivateKeyParameters)localKeyPair.getPrivate(), ciphertext));
         }
     }
 }
